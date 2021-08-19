@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.2.xsd       http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.2.xsd">
+
+  <changeSet author="academy" id="20210817_001">
+    <comment>Bugfix: Laina's phone number</comment>  
+    <update tableName="persona">
+      <column name="telefono" value="602-555-0103"/>
+      <column name="fecha_actualizacion" valueDate="now()"/>
+      <where>codigo = '20210819LM001'</where>
+    </update>
+    <rollback>
+      <update tableName="persona">
+        <column name="telefono" value="602-555-0107"/>
+        <column name="fecha_actualizacion" valueDate="now()"/>
+        <where>codigo = '20210819LM001'</where>
+      </update>
+    </rollback>
+  </changeSet>
+
+  <changeSet author="academy" id="20210817_013">
+    <tagDatabase tag="v1.1"/>
+  </changeSet>
+
+</databaseChangeLog>

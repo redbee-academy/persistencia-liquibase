@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.2.xsd       http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.2.xsd">
+
+  <changeSet author="academy" id="20210817_001">
+    <createTable tableName="persona">
+      <column name="id" type="serial">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="codigo" type="varchar(15)">
+        <constraints nullable="false" unique="true"/>
+      </column>
+      <column name="apellido" type="varchar(100)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="nombre" type="varchar(100)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="telefono" type="varchar(20)"/>
+      <column name="fecha_creacion" type="datetime" defaultValueDate="now()">
+        <constraints nullable="false"/>
+      </column>
+      <column name="fecha_actualizacion" type="datetime" defaultValueDate="now()">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+
+  <changeSet author="academy" id="20210817_002">
+    <createTable tableName="curso">
+      <column name="id" type="serial">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="codigo" type="varchar(15)">
+        <constraints nullable="false" unique="true"/>
+      </column>
+      <column name="nombre" type="varchar(100)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="duracion" type="smallint" remarks="Duración del curso en días"/>
+      <column name="precio" type="currency"/>
+      <column name="id_instructor" type="int">
+        <constraints nullable="false" referencedTableName="persona" referencedColumnNames="id" foreignKeyName="fk_curso_id_alumno"/>
+      </column>
+      <column name="fecha_creacion" type="datetime" defaultValueDate="now()">
+        <constraints nullable="false"/>
+      </column>
+      <column name="fecha_actualizacion" type="datetime" defaultValueDate="now()">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+
+  <changeSet author="academy" id="20210817_003">
+    <createTable tableName="alistamiento">
+      <column name="id" type="serial">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="id_estudiante" type="int">
+        <constraints nullable="false" referencedTableName="persona" referencedColumnNames="id" foreignKeyName="fk_alistamiento_id_estudiante"/>
+      </column>
+      <column name="id_curso" type="int">
+        <constraints nullable="false" referencedTableName="curso" referencedColumnNames="id" foreignKeyName="fk_alistamiento_id_curso"/>
+      </column>
+      <column name="fecha_inscripcion" type="date">
+        <constraints nullable="false"/>
+      </column>
+      <column name="fecha_finalizacion" type="date"/>
+      <column name="calificacion" type="smallint"/>
+      <column name="fecha_creacion" type="datetime" defaultValueDate="now()">
+        <constraints nullable="false"/>
+      </column>
+      <column name="fecha_actualizacion" type="datetime" defaultValueDate="now()">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+
+  <changeSet author="academy" id="20210817_004">
+    <addUniqueConstraint
+      columnNames="id_estudiante, id_curso, fecha_inscripcion"
+      constraintName="udx_alistamiento_estudiante_curso_fecha_inscripcion"
+      tableName="alistamiento"/>
+  </changeSet>
+
+  <changeSet author="academy" id="20210817_005">
+      <insert tableName="persona">
+          <column name="codigo" value="20210819VC001"/>
+          <column name="apellido" value="Cerf"/>
+          <column name="nombre" value="Vinton"/>
+          <column name="telefono" value="202-555-0175"/>
+      </insert>
+      <rollback>
+        <delete tableName="persona">
+          <where>codigo = '20210819VC001'</where>
+        </delete>
+      </rollback>
+  </changeSet>
+
+  <changeSet author="academy" id="20210817_006">
+      <insert tableName="persona">
+          <column name="codigo" value="20210819ED001"/>
+          <column name="apellido" value="Dijkstra"/>
+          <column name="nombre" value="Edsger"/>
+          <column name="telefono" value="617-555-0134"/>
+      </insert>
+      <rollback>
+        <delete tableName="persona">
+          <where>codigo = '20210819ED001'</where>
+        </delete>
+      </rollback>
+  </changeSet>
+
+  <changeSet author="academy" id="20210817_007">
+      <insert tableName="persona">
+          <column name="codigo" value="20210819LJ001"/>
+          <column name="apellido" value="Jenkins"/>
+          <column name="nombre" value="Leeroy"/>
+          <column name="telefono" value="417-555-0126"/>
+      </insert>
+      <rollback>
+        <delete tableName="persona">
+          <where>codigo = '20210819LJ001'</where>
+        </delete>
+      </rollback>
+  </changeSet>
+
+  <changeSet author="academy" id="20210817_008">
+      <insert tableName="persona">
+          <column name="codigo" value="20210819BS001"/>
+          <column name="apellido" value="Schulz"/>
+          <column name="nombre" value="Ben"/>
+          <column name="telefono" value="512-555-0130"/>
+      </insert>
+      <rollback>
+        <delete tableName="persona">
+          <where>codigo = '20210819BS001'</where>
+        </delete>
+      </rollback>
+  </changeSet>
+
+  <changeSet author="academy" id="20210817_009">
+      <insert tableName="persona">
+          <column name="codigo" value="20210819LM001"/>
+          <column name="apellido" value="Morris"/>
+          <column name="nombre" value="Laina"/>
+          <column name="telefono" value="602-555-0107"/>
+      </insert>
+      <rollback>
+        <delete tableName="persona">
+          <where>codigo = '20210819LM001'</where>
+        </delete>
+      </rollback>
+  </changeSet>
+
+  <changeSet author="academy" id="20210817_010">
+      <insert tableName="curso">
+          <column name="codigo" value="CURCPD101"/>
+          <column name="nombre" value="Concurrencia y programación distribuida"/>
+          <column name="duracion" valueNumeric="40"/>
+          <column name="precio" valueNumeric="29999.99"/>
+          <column name="id_instructor" valueComputed="(select id from persona where codigo = '20210819ED001')"/>
+      </insert>
+      <rollback>
+        <delete tableName="curso">
+          <where>codigo = 'CURCPD101'</where>
+        </delete>
+      </rollback>
+  </changeSet>
+
+  <changeSet author="academy" id="20210817_011">
+      <insert tableName="alistamiento">
+          <column name="id_estudiante" valueComputed="(select id from persona where codigo = '20210819BS001')"/>
+          <column name="id_curso" valueComputed="(select id from curso where codigo = 'CURCPD101')"/>
+          <column name="fecha_inscripcion" valueDate="2020-08-01"/>
+          <column name="fecha_finalizacion" valueDate="2020-10-01"/>
+          <column name="calificacion" valueNumeric="6"/>
+      </insert>
+      <rollback>
+        <delete tableName="curso">
+          <where>id_estudiante = (select id from persona where codigo = '20210819BS001')
+            and id_curso = (select id from curso where codigo = 'CURCPD101')
+            and fecha_inscripcion = '2020-08-01'</where>
+        </delete>
+      </rollback>
+  </changeSet>
+
+  <changeSet author="academy" id="20210817_012">
+      <insert tableName="alistamiento">
+          <column name="id_estudiante" valueComputed="(select id from persona where codigo = '20210819LJ001')"/>
+          <column name="id_curso" valueComputed="(select id from curso where codigo = 'CURCPD101')"/>
+          <column name="fecha_inscripcion" valueDate="2021-08-16"/>
+      </insert>
+      <rollback>
+        <delete tableName="curso">
+          <where>id_estudiante = (select id from persona where codigo = '20210819LJ001')
+            and id_curso = (select id from curso where codigo = 'CURCPD101')
+            and fecha_inscripcion = '2021-08-16'</where>
+        </delete>
+      </rollback>
+  </changeSet>
+
+  <changeSet author="academy" id="20210817_013">
+    <tagDatabase tag="v1.0"/>
+  </changeSet>
+
+</databaseChangeLog>
