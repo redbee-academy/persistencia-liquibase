@@ -27,6 +27,14 @@ docker run --rm -v $(pwd):/liquibase/changelog --link tmp_postgres liquibase/liq
 
 ### Generar changelog de una base de datos existente con Liquibase
 
+Primero (y por única vez) debemos permitir la escritura en la carpeta en la que nos encontramos, para que el usuario dentro del contenedor (que es distinto al usuario externo) pueda generar el archivo changelog:
+
+```sh
+chmod o+w .
+```
+
+Luego podemos ejecutar el comando que nos va a gener el archivo de changelog a partir de una base de datos previamente creada:
+
 ```sh
 docker run --rm -v $(pwd):/liquibase/changelog --link tmp_postgres liquibase/liquibase:4.4 --defaultsFile=/liquibase/changelog/liquibase.properties generateChangeLog
 ```
